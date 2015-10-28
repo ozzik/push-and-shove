@@ -2,9 +2,24 @@
 A tiny Sketch plugin for manipulating layers in various evil ways:
 
 - Resize layers backwards (from the bottom right edge) by just adding ```^``` to your combo: ```^ ⌘ →``` (ctrl + cmd + any arrow key) and ```^ ⌘ ⇧ →``` for 10px (ctrl + cmd shift + any arrow key)
+
+Like this
+
+![Resize layers backwards](readme-assets/demo1.gif)
+
 - Move layers half a pixel in any direction with ```^ ⎇ →``` (ctrl + alt + any arrow key)
 - Resize layers half a pixel in any direction with ```^ ⎇ ⇧ →``` (ctrl + alt + shift + any arrow key)
+
+And this
+
+![Move layers half a pixel to align odd sized shapes](readme-assets/demo2.gif)
+
 - Align layers horizontally and vertically, down to half pixels accuracy with ```⌘ [``` and ```⌘ ]``` (cmd + bracket keys).
+
+Or maybe this
+
+![Align layers down to half pixels accuracy](readme-assets/demo3.gif)
+
 - Toggle the proportions constraint of layers with ```^ ⌘ c``` (ctrl + cmd + C).
 
 ## How to Install
