@@ -98,3 +98,84 @@ var dothetoggle = function(context) {
 		[layer frame].constrainProportions = (isConstrained) ? 0 : 1;
 	}
 }
+
+// Alignment methods
+var align = function(context, isHorizontal) {
+	var selection = context.selection,
+		document = context.document,
+		layerFrame = [[selection objectAtIndex:0] frame],
+		playground = {
+			startX: [layerFrame x],
+			startY: [layerFrame y],
+			endX: [layerFrame x] + [layerFrame width],
+			endY: [layerFrame y] + [layerFrame height]
+		},
+		areAllWidthsOdd = true,
+		areAllHeightsOdd = true,
+		areAllWidthsEven = true,
+		areAllHeightsEven = true,
+		isAlignToArtboard = [selection count] === 1;
+
+	// Aligning different layers
+	if (!isAlignToArtboard) {
+		// Looking for biggest playground area
+		for (var i = 0; i < [selection count]; i++) {
+			layerFrame = [[selection objectAtIndex:i] frame];
+			
+			playground.startX = [layerFrame x] < playground.startX ? [layerFrame x] : playground.startX;
+			playground.startY = [layerFrame y] < playground.startY ? [layerFrame y] : playground.startY;
+			playground.endX = ([layerFrame x] + [layerFrame width] > playground.endX) ? ([layerFrame x] + [layerFrame width]) : playground.endX;
+			playground.endY = ([layerFrame y] + [layerFrame height] > playground.endY) ? ([layerFrame y] + [layerFrame height]) : playground.endY;
+			areAllWidthsOdd &= ([layerFrame width] % 2 !== 0);
+			areAllHeightsOdd &= ([layerFrame height] % 2 !== 0);
+			areAllWidthsEven &= ([layerFrame width] % 2 === 0);
+			areAllHeightsEven &= ([layerFrame height] % 2 === 0);
+		}
+
+		playground.width = playground.endX - playground.startX;
+		playground.height = playground.endY - playground.startY;
+		// Synthesizing playground size when they're odd and some layers have even sizes
+		// (if both playground's size and layers' are odd then math will do its magic)
+		// playground.width -= ((areAllWidthsOdd && playground.width % 2 === 0)) ? 1 : 0;
+		playground.width -= ((areAllWidthsOdd && playground.width % 2 === 0) || (areAllWidthsEven && playground.width % 2)) ? 1 : 0;
+		playground.height -= ((areAllHeightsOdd && playground.height % 2 === 0) || (areAllHeightsEven && playground.height % 2)) ? 1 : 0;
+
+		// Aligning each object to playground
+		for (var i = 0; i < [selection count]; i++) {
+			_align([[selection objectAtIndex:i] frame], isHorizontal);
+		}
+	} else { // Aligning to artboard
+		var artboardFrame = [[[document currentPage] currentArtboard] frame];
+		playground.startX = 0;
+		playground.startY = 0;
+		playground.endX = [artboardFrame width];
+		playground.endY = [artboardFrame height];
+		playground.width = [artboardFrame width];
+		playground.height = [artboardFrame height];
+
+		// Aligning
+		_align([[selection objectAtIndex:0] frame], isHorizontal);
+	}	
+
+	function _align(layerFrame, isHorizontal) {
+		var isOdd = false;
+
+		if (isHorizontal) {
+			[layerFrame setX:playground.startX + ((playground.width - [layerFrame width]) / 2)];
+
+			isOdd = (playground.width + [layerFrame width]) % 2 !== 0;
+		} else {
+			[layerFrame setY:playground.startY + ((playground.height - [layerFrame height]) / 2)];
+
+			isOdd = (playground.height + [layerFrame height]) % 2 !== 0;
+		}
+		isOdd && [document showMessage:"👻 Aligned to half pixels (odd numbers)"];
+	}
+};
+
+var align_horizontally = function(context) {
+	align(context, true);
+};
+var align_vertically = function(context) {
+	align(context);
+};

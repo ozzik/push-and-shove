@@ -88,30 +88,44 @@
     {
       "script" : "script.cocoascript",
       "handler" : "resize_halfway_up",
-      "shortcut" : "ctrl cmd alt ↑",
+      "shortcut" : "ctrl shift alt ↑",
       "name" : "Resize Halfway Up",
       "identifier" : "resize_halfway_up"
     },
     {
       "script" : "script.cocoascript",
       "handler" : "resize_halfway_right",
-      "shortcut" : "ctrl cmd alt →",
+      "shortcut" : "ctrl shift alt →",
       "name" : "Resize Halfway Right",
       "identifier" : "resize_halfway_right"
     },
     {
       "script" : "script.cocoascript",
       "handler" : "resize_halfway_down",
-      "shortcut" : "ctrl cmd alt ↓",
+      "shortcut" : "ctrl shift alt ↓",
       "name" : "Resize Halfway Down",
       "identifier" : "resize_halfway_down"
     },
     {
       "script" : "script.cocoascript",
       "handler" : "resize_halfway_left",
-      "shortcut" : "ctrl cmd alt ←",
+      "shortcut" : "ctrl shift alt ←",
       "name" : "Resize Halfway Left",
       "identifier" : "resize_halfway_left"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "align_horizontally",
+      "shortcut" : "cmd ]",
+      "name" : "Align Horizontally (Accurate)",
+      "identifier" : "align_horizontally"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "align_vertically",
+      "shortcut" : "cmd [",
+      "name" : "Align Vertically (Accurate)",
+      "identifier" : "align_vertically"
     },
     {
       "script" : "script.cocoascript",
@@ -158,6 +172,8 @@
               "resize_halfway_left"
             ]
           },
+          "align_horizontally",
+          "align_vertically",
           "toggleproportions"
         ]
       }

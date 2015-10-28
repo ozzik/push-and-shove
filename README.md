@@ -3,8 +3,9 @@ A tiny Sketch plugin for manipulating layers in various evil ways:
 
 - Resize layers backwards (from the bottom right edge) by just adding ```^``` to your combo: ```^ ⌘ →``` (ctrl + cmd + any arrow key) and ```^ ⌘ ⇧ →``` for 10px (ctrl + cmd shift + any arrow key)
 - Move layers half a pixel in any direction with ```^ ⎇ →``` (ctrl + alt + any arrow key)
-- Resize layers half a pixel in any direction with ```^ ⎇ ⌘ →``` (ctrl + alt + cmd + any arrow key)
-- Toggle the proportions constraint of a layer(s) with ```^ ⌘ c``` (ctrl + cmd + C).
+- Resize layers half a pixel in any direction with ```^ ⎇ ⇧ →``` (ctrl + alt + shift + any arrow key)
+- Align layers horizontally and vertically, down to half pixels accuracy with ```⌘ [``` and ```⌘ ]``` (cmd + bracket keys).
+- Toggle the proportions constraint of layers with ```^ ⌘ c``` (ctrl + cmd + C).
 
 ## How to Install
 1. Download and open ```push-and-shove-master.zip```
