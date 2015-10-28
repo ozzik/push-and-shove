@@ -1,0 +1,171 @@
+{
+  "author" : "Oz Pinhas",
+  "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_invert_up",
+      "shortcut" : "ctrl cmd ↑",
+      "name" : "Increase Height Backwards",
+      "identifier" : "resize_invert_up"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_invert_up_10",
+      "shortcut" : "ctrl cmd shift ↑",
+      "name" : "Increase Height 10px Backwards",
+      "identifier" : "resize_invert_up_10"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_invert_right",
+      "shortcut" : "ctrl cmd →",
+      "name" : "Increase Width Backwards",
+      "identifier" : "resize_invert_right"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_invert_right_10",
+      "shortcut" : "ctrl cmd shift →",
+      "name" : "Increase Width 10px Backwards",
+      "identifier" : "resize_invert_right_10"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_invert_down",
+      "shortcut" : "ctrl cmd ↓",
+      "name" : "Decrease Height Backwards",
+      "identifier" : "resize_invert_down"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_invert_down_10",
+      "shortcut" : "ctrl cmd shift ↓",
+      "name" : "Decrease Height 10px Backwards",
+      "identifier" : "resize_invert_down_10"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_invert_left",
+      "shortcut" : "ctrl cmd ←",
+      "name" : "Decrease Width Backwards",
+      "identifier" : "resize_invert_left"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_invert_left_10",
+      "shortcut" : "ctrl cmd shift ←",
+      "name" : "Decrease Width 10px Backwards",
+      "identifier" : "resize_invert_left_10"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "move_halfway_up",
+      "shortcut" : "ctrl alt ↑",
+      "name" : "Move Halfway Up",
+      "identifier" : "move_halfway_up"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "move_halfway_right",
+      "shortcut" : "ctrl alt →",
+      "name" : "Move Halfway Right",
+      "identifier" : "move_halfway_right"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "move_halfway_down",
+      "shortcut" : "ctrl alt ↓",
+      "name" : "Move Halfway Down",
+      "identifier" : "move_halfway_down"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "move_halfway_left",
+      "shortcut" : "ctrl alt ←",
+      "name" : "Move Halfway Left",
+      "identifier" : "move_halfway_left"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_halfway_up",
+      "shortcut" : "ctrl cmd alt ↑",
+      "name" : "Resize Halfway Up",
+      "identifier" : "resize_halfway_up"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_halfway_right",
+      "shortcut" : "ctrl cmd alt →",
+      "name" : "Resize Halfway Right",
+      "identifier" : "resize_halfway_right"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_halfway_down",
+      "shortcut" : "ctrl cmd alt ↓",
+      "name" : "Resize Halfway Down",
+      "identifier" : "resize_halfway_down"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "resize_halfway_left",
+      "shortcut" : "ctrl cmd alt ←",
+      "name" : "Resize Halfway Left",
+      "identifier" : "resize_halfway_left"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "dothetoggle",
+      "shortcut" : "cmd ctrl c",
+      "name" : "Toggle Proportions",
+      "identifier" : "toggleproportions"
+    }
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": [
+      {
+        "title": "Push and Shove",
+        "items": [
+          {
+            "title": "Resize Backwards",
+            "items": [
+              "resize_invert_up",
+              "resize_invert_up_10",
+              "resize_invert_right",
+              "resize_invert_right_10",
+              "resize_invert_down",
+              "resize_invert_down_10",
+              "resize_invert_left",
+              "resize_invert_left_10"
+            ]
+          },
+          {
+            "title": "Move Halfway",
+            "items": [
+              "move_halfway_up",
+              "move_halfway_right",
+              "move_halfway_down",
+              "move_halfway_left"
+            ]
+          },
+          {
+            "title": "Resize Halfway",
+            "items": [
+              "resize_halfway_up",
+              "resize_halfway_right",
+              "resize_halfway_down",
+              "resize_halfway_left"
+            ]
+          },
+          "toggleproportions"
+        ]
+      }
+    ]
+  },
+  "identifier" : "co.ozzik.pushandshove",
+  "version" : "1.0",
+  "description" : "nothing much",
+  "authorEmail" : "hey@ozzik.co",
+  "name" : "Push and Shove"
+}

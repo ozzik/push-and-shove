@@ -1,0 +1,100 @@
+// Halfway methods
+var manipulate = function(context, axis, offset, isReverse) {
+	var selection = context.selection;
+
+	for (var i = 0; i < [selection count]; i++) {
+		var layer = [selection objectAtIndex:0],
+			layerFrame = [layer frame],
+			isConstrained = [[layer frame] constrainProportions],
+			layerWidth = [[layer frame] width],
+			layerHeight = [[layer frame] height];
+
+		if (axis === "x") {
+			[layerFrame setX:[layerFrame x] + offset];
+		} else if (axis === "y") {
+			[layerFrame setY:[layerFrame y] + offset];
+		} else if (axis === "width") {
+			[layerFrame setWidth:[layerFrame width] + offset];
+			isReverse && [layerFrame setX:[layerFrame x] + (offset * (offset ? -1 : 1))];
+		} else {
+			[layerFrame setHeight:[layerFrame height] + offset];
+			isReverse && [layerFrame setY:[layerFrame y] + (offset * (offset ? -1 : 1))];
+		}
+
+		// Fixing new positioning due to constraints
+		if (isReverse && isConstrained) {
+			layerWidth -= [layerFrame width]; // New values to adjust accordingly
+			layerHeight -= [layerFrame height];
+
+			if (axis === "width") {
+				[layerFrame setY:[layerFrame y] + (layerHeight * (offset ? 1 : -1))];
+			} else {
+				[layerFrame setX:[layerFrame x] + (layerWidth * (offset ? 1 : -1))];
+			}
+		}
+	}
+};
+
+var move_halfway_up = function(context) {
+	manipulate(context, "y", -.5);
+};
+var move_halfway_right = function(context) {
+	manipulate(context, "x", .5);
+};
+var move_halfway_down = function(context) {
+	manipulate(context, "y", .5);
+};
+var move_halfway_left = function(context) {
+	manipulate(context, "x", -.5);
+};
+
+var resize_halfway_up = function(context) {
+	manipulate(context, "height", -.5);
+};
+var resize_halfway_right = function(context) {
+	manipulate(context, "width", .5);
+};
+var resize_halfway_down = function(context) {
+	manipulate(context, "height", .5);
+};
+var resize_halfway_left = function(context) {
+	manipulate(context, "width", -.5);
+};
+
+// Reverse methods
+var resize_invert_up = function(context) {
+	manipulate(context, "height", 1, true);
+};
+var resize_invert_right = function(context) {
+	manipulate(context, "width", -1, true);
+};
+var resize_invert_down = function(context) {
+	manipulate(context, "height", -1, true);
+};
+var resize_invert_left = function(context) {
+	manipulate(context, "width", 1, true);
+};
+var resize_invert_up_10 = function(context) {
+	manipulate(context, "height", 10, true);
+};
+var resize_invert_right_10 = function(context) {
+	manipulate(context, "width", -10, true);
+};
+var resize_invert_down_10 = function(context) {
+	manipulate(context, "height", -10, true);
+};
+var resize_invert_left_10 = function(context) {
+	manipulate(context, "width", 10, true);
+};
+
+// Toggle proportions contraint methods
+var dothetoggle = function(context) {
+	var selection = context.selection;
+
+	for (var i = 0; i < [selection count]; i++) {
+		var layer = [selection objectAtIndex:i],
+			isConstrained = [[layer frame] constrainProportions];
+
+		[layer frame].constrainProportions = (isConstrained) ? 0 : 1;
+	}
+}
