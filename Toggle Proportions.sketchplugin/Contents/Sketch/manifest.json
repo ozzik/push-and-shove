@@ -1,0 +1,23 @@
+{
+  "author" : "Oz Pinhas",
+  "commands" : [
+    {
+      "script" : "script.cocoascript",
+      "handler" : "dothetoggle",
+      "shortcut" : "cmd ctrl c",
+      "name" : "Toggle Proportions",
+      "identifier" : "toggleproportions"
+    },
+  ],
+  "menu": {
+    "isRoot": true,
+    "items": [
+      "toggleproportions"
+    ]
+  },
+  "identifier" : "co.ozzik.toggleproportions",
+  "version" : "1.0",
+  "description" : "Toggles the proportions constraint of a layer(s)",
+  "authorEmail" : "hey@ozzik.co",
+  "name" : "Toggle Proportions"
+}

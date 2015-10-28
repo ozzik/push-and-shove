@@ -1,0 +1,10 @@
+var dothetoggle = function(context) {
+	var selection = context.selection;
+
+	for (var i = 0; i < [selection count]; i++) {
+		var layer = [selection objectAtIndex:i],
+			isConstrained = [[layer frame] constrainProportions];
+
+		[layer frame].constrainProportions = (isConstrained) ? 0 : 1;
+	}
+}
