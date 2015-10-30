@@ -3,7 +3,7 @@ var manipulate = function(context, axis, offset, isReverse) {
 	var selection = context.selection;
 
 	for (var i = 0; i < [selection count]; i++) {
-		var layer = [selection objectAtIndex:0],
+		var layer = [selection objectAtIndex:i],
 			layerFrame = [layer frame],
 			isConstrained = [[layer frame] constrainProportions],
 			layerWidth = [[layer frame] width],
