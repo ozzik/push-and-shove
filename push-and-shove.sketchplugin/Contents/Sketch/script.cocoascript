@@ -1,38 +1,45 @@
 // Halfway methods
 var manipulate = function(context, axis, offset, isReverse) {
-	var selection = context.selection;
+	var selection = context.selection,
+		layer,
+		layerFrame,
+		isConstrained,
+		layerWidth,
+		layerHeight;
 
-	for (var i = 0; i < [selection count]; i++) {
-		var layer = [selection objectAtIndex:i],
-			layerFrame = [layer frame],
-			isConstrained = [[layer frame] constrainProportions],
-			layerWidth = [[layer frame] width],
-			layerHeight = [[layer frame] height];
+	for (var i = 0; i < selection.count(); i++) {
+		layer = selection.objectAtIndex(i),
+		layerFrame = layer.frame(),
+		isConstrained = layer.frame().constrainProportions(),
+		layerWidth = layer.frame().width(),
+		layerHeight = layer.frame().height();
 
 		if (axis === "x") {
-			[layerFrame setX:[layerFrame x] + offset];
+			layerFrame.setX(layerFrame.x() + offset);
 		} else if (axis === "y") {
-			[layerFrame setY:[layerFrame y] + offset];
+			layerFrame.setY(layerFrame.y() + offset);
 		} else if (axis === "width") {
-			[layerFrame setWidth:[layerFrame width] + offset];
-			isReverse && [layerFrame setX:[layerFrame x] + (offset * (offset ? -1 : 1))];
+			layerFrame.setWidth(layerFrame.width() + offset);
+			isReverse && layerFrame.setX(layerFrame.x() + (offset * (offset ? -1 : 1)));
 		} else {
-			[layerFrame setHeight:[layerFrame height] + offset];
-			isReverse && [layerFrame setY:[layerFrame y] + (offset * (offset ? -1 : 1))];
+			layerFrame.setHeight(layerFrame.height() + offset);
+			isReverse && layerFrame.setY(layerFrame.y() + (offset * (offset ? -1 : 1)));
 		}
 
 		// Fixing new positioning due to constraints
 		if (isReverse && isConstrained) {
-			layerWidth -= [layerFrame width]; // New values to adjust accordingly
-			layerHeight -= [layerFrame height];
+			layerWidth -= layerFrame.width(); // New values to adjust accordingly
+			layerHeight -= layerFrame.height();
 
 			if (axis === "width") {
-				[layerFrame setY:[layerFrame y] + (layerHeight * (offset ? 1 : -1))];
+				layerFrame.setY(layerFrame.y() + (layerHeight * (offset ? 1 : -1)));
 			} else {
-				[layerFrame setX:[layerFrame x] + (layerWidth * (offset ? 1 : -1))];
+				layerFrame.setX(layerFrame.x() + (layerWidth * (offset ? 1 : -1)));
 			}
 		}
 	}
+
+	context.document.reloadInspector();
 };
 
 var move_halfway_up = function(context) {
@@ -91,85 +98,103 @@ var resize_invert_left_10 = function(context) {
 var dothetoggle = function(context) {
 	var selection = context.selection;
 
-	for (var i = 0; i < [selection count]; i++) {
-		var layer = [selection objectAtIndex:i],
-			isConstrained = [[layer frame] constrainProportions];
+	for (var i = 0; i < selection.count(); i++) {
+		var layer = selection.objectAtIndex(i),
+			isConstrained = layer.frame().constrainProportions();
 
-		[layer frame].constrainProportions = (isConstrained) ? 0 : 1;
+		layer.frame().constrainProportions = (isConstrained) ? 0 : 1;
 	}
+
+	context.document.reloadInspector();
 }
 
 // Alignment methods
 var align = function(context, isHorizontal) {
 	var selection = context.selection,
 		document = context.document,
-		layerFrame = [[selection objectAtIndex:0] frame],
+		layerFrame = selection.objectAtIndex(0).frame(),
+		layerAbsolutePosition = _getAbsolutePosition(selection[0], true)
 		playground = {
-			startX: [layerFrame x],
-			startY: [layerFrame y],
-			endX: [layerFrame x] + [layerFrame width],
-			endY: [layerFrame y] + [layerFrame height]
+			startX: layerAbsolutePosition.x,
+			startY: layerAbsolutePosition.y,
+			endX: layerAbsolutePosition.x + layerFrame.width(),
+			endY: layerAbsolutePosition.y + layerFrame.height()
 		},
 		areAllWidthsOdd = true,
 		areAllHeightsOdd = true,
 		areAllWidthsEven = true,
 		areAllHeightsEven = true,
-		isAlignToArtboard = [selection count] === 1;
+		isAlignToArtboard = selection.count() == 1;
 
 	// Aligning different layers
 	if (!isAlignToArtboard) {
 		// Looking for biggest playground area
-		for (var i = 0; i < [selection count]; i++) {
-			layerFrame = [[selection objectAtIndex:i] frame];
+		for (var i = 0; i < selection.count(); i++) {
+			layerFrame = selection.objectAtIndex(i).frame();
+			layerAbsolutePosition = _getAbsolutePosition(selection[i], true);
 			
-			playground.startX = [layerFrame x] < playground.startX ? [layerFrame x] : playground.startX;
-			playground.startY = [layerFrame y] < playground.startY ? [layerFrame y] : playground.startY;
-			playground.endX = ([layerFrame x] + [layerFrame width] > playground.endX) ? ([layerFrame x] + [layerFrame width]) : playground.endX;
-			playground.endY = ([layerFrame y] + [layerFrame height] > playground.endY) ? ([layerFrame y] + [layerFrame height]) : playground.endY;
-			areAllWidthsOdd &= ([layerFrame width] % 2 !== 0);
-			areAllHeightsOdd &= ([layerFrame height] % 2 !== 0);
-			areAllWidthsEven &= ([layerFrame width] % 2 === 0);
-			areAllHeightsEven &= ([layerFrame height] % 2 === 0);
+			playground.startX = layerAbsolutePosition.x < playground.startX ? layerAbsolutePosition.x : playground.startX;
+			playground.startY = layerAbsolutePosition.y < playground.startY ? layerAbsolutePosition.y : playground.startY;
+			playground.endX = (layerAbsolutePosition.x + layerFrame.width() > playground.endX) ? (layerAbsolutePosition.x + layerFrame.width()) : playground.endX;
+			playground.endY = (layerAbsolutePosition.y + layerFrame.height() > playground.endY) ? (layerAbsolutePosition.y + layerFrame.height()) : playground.endY;
+			areAllWidthsOdd &= (layerFrame.width() % 2 !== 0);
+			areAllHeightsOdd &= (layerFrame.height() % 2 !== 0);
+			areAllWidthsEven &= (layerFrame.width() % 2 === 0);
+			areAllHeightsEven &= (layerFrame.height() % 2 === 0);
 		}
 
 		playground.width = playground.endX - playground.startX;
 		playground.height = playground.endY - playground.startY;
 		// Synthesizing playground size when they're odd and some layers have even sizes
 		// (if both playground's size and layers' are odd then math will do its magic)
-		// playground.width -= ((areAllWidthsOdd && playground.width % 2 === 0)) ? 1 : 0;
 		playground.width -= ((areAllWidthsOdd && playground.width % 2 === 0) || (areAllWidthsEven && playground.width % 2)) ? 1 : 0;
 		playground.height -= ((areAllHeightsOdd && playground.height % 2 === 0) || (areAllHeightsEven && playground.height % 2)) ? 1 : 0;
 
 		// Aligning each object to playground
-		for (var i = 0; i < [selection count]; i++) {
-			_align([[selection objectAtIndex:i] frame], isHorizontal);
+		for (var i = 0; i < selection.count(); i++) {
+			_align(selection.objectAtIndex(i), isHorizontal);
 		}
 	} else { // Aligning to artboard
-		var artboardFrame = [[[document currentPage] currentArtboard] frame];
+		var artboardFrame = document.currentPage().currentArtboard().frame();
 		playground.startX = 0;
 		playground.startY = 0;
-		playground.endX = [artboardFrame width];
-		playground.endY = [artboardFrame height];
-		playground.width = [artboardFrame width];
-		playground.height = [artboardFrame height];
+		playground.endX = artboardFrame.width();
+		playground.endY = artboardFrame.height();
+		playground.width = artboardFrame.width();
+		playground.height = artboardFrame.height();
 
 		// Aligning
-		_align([[selection objectAtIndex:0] frame], isHorizontal);
+		_align(selection.objectAtIndex(0), isHorizontal);
 	}	
 
-	function _align(layerFrame, isHorizontal) {
-		var isOdd = false;
+	function _align(layer, isHorizontal) {
+		var isOdd = false,
+			layerFrame = layer.frame(),
+			layerAbsolute = _getAbsolutePosition(layer),
+			newPos;
 
 		if (isHorizontal) {
-			[layerFrame setX:playground.startX + ((playground.width - [layerFrame width]) / 2)];
+			newPos = playground.startX + ((playground.width - layerFrame.width()) / 2) - layerAbsolute.x;
 
-			isOdd = (playground.width + [layerFrame width]) % 2 !== 0;
+			if (!layerAbsolute.x) {
+				layerFrame.setX(newPos);
+			} else {
+				layerFrame.setX(layerFrame.x() + newPos);
+			}
+
+			isOdd = (playground.width + layerFrame.width()) % 2 !== 0;
 		} else {
-			[layerFrame setY:playground.startY + ((playground.height - [layerFrame height]) / 2)];
+			newPos = playground.startY + ((playground.height - layerFrame.height()) / 2) - layerAbsolute.y;
 
-			isOdd = (playground.height + [layerFrame height]) % 2 !== 0;
+			if (!layerAbsolute.y) {
+				layerFrame.setY(newPos);
+			} else {
+				layerFrame.setY(layerFrame.y() + newPos);
+			}
+
+			isOdd = (playground.height + layerFrame.height()) % 2 !== 0;
 		}
-		isOdd && [document showMessage:"👻 Aligned to half pixels (odd numbers)"];
+		isOdd && document.showMessage("👻 Aligned to half pixels (odd numbers)");
 	}
 };
 
@@ -178,4 +203,71 @@ var align_horizontally = function(context) {
 };
 var align_vertically = function(context) {
 	align(context);
+};
+
+function _getAbsolutePosition(layer, isAnyway) {
+	var x = 0,
+		y = 0;
+
+	if (layer.parentGroup() instanceof MSArtboardGroup == 0 || layer.parentGroup() instanceof MSPage == 0 || isAnyway) {
+		while (layer instanceof MSArtboardGroup == 0 && layer.parentGroup() instanceof MSPage == 0) {
+			if (layer instanceof MSArtboardGroup == 0 && layer.parentGroup() instanceof MSPage == 0) {
+				x += layer.frame().x();
+				y += layer.frame().y();
+			}
+
+			layer = layer.parentGroup();
+		}	
+	}
+
+	return {
+		x: x,
+		y: y
+	};
+}
+
+var pasteAndReplace = function(context) {
+	var doc = context.document,
+		selection = context.selection[0],
+		pastedLayer;
+
+	if (context.selection.count() > 1) {
+		doc.showMessage("Plz select just one layer");
+	} else {
+		doc.currentHandler().pasteOverSelection(selection);
+		pastedLayer = doc.selectedLayers();
+
+		doc.setSelectedLayers([ selection ]);
+		doc.currentHandler().delete(selection);
+
+		doc.setSelectedLayers(pastedLayer);
+	}
+};
+
+var deleteAndKeepSelection = function(context) {
+	var doc = context.document,
+		selection = context.selection[0],
+		pastedLayer,
+		selectionParent = selection.parentGroup(),
+		neighbors = selectionParent.layers().array(),
+		sibling;
+
+	for (var i = 0; i < neighbors.count(); i++) {
+		// Looking for next (top) layer
+		if (neighbors[i] == selection && i < neighbors.count() - 1) {
+			sibling = neighbors[i + 1];
+		}
+	}
+	// Still looking for previous (below) layer
+	if (!sibling && neighbors.count() > 1) {
+		sibling = neighbors[neighbors.count() - 2]
+	}
+
+	doc.currentHandler().delete(selection);
+
+	if (sibling) {
+		doc.setSelectedLayers([ sibling ]);
+	} else {
+		doc.setSelectedLayers([ selectionParent ]);
+	}
 };

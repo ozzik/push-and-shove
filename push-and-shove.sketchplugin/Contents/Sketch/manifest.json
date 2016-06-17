@@ -133,6 +133,20 @@
       "shortcut" : "cmd ctrl c",
       "name" : "Toggle Proportions",
       "identifier" : "toggleproportions"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "pasteAndReplace",
+      "shortcut" : "cmd ctrl shift v",
+      "name" : "Paste and Replace",
+      "identifier" : "pasteandreplace"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "deleteAndKeepSelection",
+      "shortcut" : "cmd ⌫",
+      "name" : "Delete (and Keep Selection)",
+      "identifier" : "deleteandkeepselection"
     }
   ],
   "menu": {
@@ -174,13 +188,15 @@
           },
           "align_horizontally",
           "align_vertically",
-          "toggleproportions"
+          "toggleproportions",
+          "pasteandreplace",
+          "deleteandkeepselection"
         ]
       }
     ]
   },
   "identifier" : "co.ozzik.pushandshove",
-  "version" : "1.0",
+  "version" : "1.1",
   "description" : "nothing much",
   "authorEmail" : "hey@ozzik.co",
   "name" : "Push and Shove"
