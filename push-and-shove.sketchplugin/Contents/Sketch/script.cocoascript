@@ -109,7 +109,7 @@ var dothetoggle = function(context) {
 }
 
 // Alignment methods
-var align = function(context, isHorizontal) {
+var align = function(context, isHorizontal, isAlignToArtboard) {
 	var selection = context.selection,
 		document = context.document,
 		layerFrame = selection.objectAtIndex(0).frame(),
@@ -124,7 +124,7 @@ var align = function(context, isHorizontal) {
 		areAllHeightsOdd = true,
 		areAllWidthsEven = true,
 		areAllHeightsEven = true,
-		isAlignToArtboard = selection.count() == 1;
+		isAlignToArtboard = isAlignToArtboard || selection.count() == 1;
 
 	// Aligning different layers
 	if (!isAlignToArtboard) {
@@ -164,7 +164,9 @@ var align = function(context, isHorizontal) {
 		playground.height = artboardFrame.height();
 
 		// Aligning
-		_align(selection.objectAtIndex(0), isHorizontal);
+		for (var i = 0; i < selection.count(); i++) {
+			_align(selection.objectAtIndex(i), isHorizontal);
+		}
 	}	
 
 	function _align(layer, isHorizontal) {
@@ -203,6 +205,12 @@ var align_horizontally = function(context) {
 };
 var align_vertically = function(context) {
 	align(context);
+};
+var align_horizontally_to_artboard = function(context) {
+	align(context, true, true);
+};
+var align_vertically_to_artboard = function(context) {
+	align(context, false, true);
 };
 
 function _getAbsolutePosition(layer, isAnyway) {

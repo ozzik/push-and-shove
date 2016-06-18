@@ -117,15 +117,29 @@
       "script" : "script.cocoascript",
       "handler" : "align_horizontally",
       "shortcut" : "cmd ]",
-      "name" : "Align Horizontally (Accurate)",
+      "name" : "Align Horizontally",
       "identifier" : "align_horizontally"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "align_horizontally_to_artboard",
+      "shortcut" : "cmd alt ]",
+      "name" : "Align Horizontally to Artboard",
+      "identifier" : "align_horizontally_to_artboard"
     },
     {
       "script" : "script.cocoascript",
       "handler" : "align_vertically",
       "shortcut" : "cmd [",
-      "name" : "Align Vertically (Accurate)",
+      "name" : "Align Vertically",
       "identifier" : "align_vertically"
+    },
+    {
+      "script" : "script.cocoascript",
+      "handler" : "align_vertically_to_artboard",
+      "shortcut" : "cmd alt [",
+      "name" : "Align Vertically to Artboard",
+      "identifier" : "align_vertically_to_artboard"
     },
     {
       "script" : "script.cocoascript",
@@ -186,8 +200,15 @@
               "resize_halfway_left"
             ]
           },
-          "align_horizontally",
-          "align_vertically",
+          {
+            "title": "Align",
+            "items": [
+              "align_horizontally",
+              "align_horizontally_to_artboard",
+              "align_vertically",
+              "align_vertically_to_artboard"
+            ]
+          },
           "toggleproportions",
           "pasteandreplace",
           "deleteandkeepselection"
@@ -196,7 +217,7 @@
     ]
   },
   "identifier" : "co.ozzik.pushandshove",
-  "version" : "1.1",
+  "version" : "1.2",
   "description" : "nothing much",
   "authorEmail" : "hey@ozzik.co",
   "name" : "Push and Shove"

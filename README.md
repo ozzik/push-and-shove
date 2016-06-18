@@ -14,11 +14,12 @@ And this
 
 ![Move layers half a pixel to align odd sized shapes](readme-assets/demo2.gif)
 
-- Align layers horizontally and vertically, down to half pixels accuracy with ```⌘ [``` and ```⌘ ]``` (cmd + bracket keys).
+- Align layers horizontally and vertically accuretly (similar to "Pixel Fitting" setting) with ```⌘ [``` and ```⌘ ]``` (cmd + bracket keys).
+- Align layers horizontally and vertically to artboard with ```⌘ ⎇ [``` and ```⌘ ⎇ ]``` (cmd + alt + bracket keys).
 
 Or maybe this
 
-![Align layers down to half pixels accuracy](readme-assets/demo3.gif)
+![Align layers accuretly](readme-assets/demo3.gif)
 
 Also:
 
