@@ -245,7 +245,7 @@ var pasteAndReplace = function(context) {
 		doc.currentHandler().pasteOverSelection(selection);
 		pastedLayer = doc.selectedLayers();
 
-		doc.setSelectedLayers([ selection ]);
+		doc.setSelectedLayers(MSLayerArray.arrayWithLayer(selection));
 		doc.currentHandler().delete(selection);
 
 		doc.setSelectedLayers(pastedLayer);
