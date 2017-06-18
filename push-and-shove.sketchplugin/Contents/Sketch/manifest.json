@@ -217,8 +217,9 @@
     ]
   },
   "identifier" : "co.ozzik.pushandshove",
-  "version" : "1.2.1",
-  "description" : "nothing much",
+  "version" : "1.2.2",
+  "description" : "Resizing, aligning and generally manipulating layers wickedly",
   "authorEmail" : "hey@ozzik.co",
-  "name" : "Push and Shove"
+  "name" : "Push and Shove",
+  "appcast": "https://raw.githubusercontent.com/ozzik/push-and-shove/master/appcast.xml"
 }
